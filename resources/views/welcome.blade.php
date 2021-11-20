@@ -11,73 +11,74 @@
 
   <title>{{ config('app.name', 'Laravel') }}</title>
 
+  <!-- Scripts -->
+  <script src="{{ asset('js/app.js') }}" defer></script>
+  <script src="{{ asset('js/script.js') }}" defer></script>
+
   <!-- Styles -->
   <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+
 </head>
 
 <body class="bg-gray-100 h-screen antialiased leading-none font-sans">
-  <div class="flex flex-col">
-    @if (Route::has('login'))
-      <div class="absolute top-0 right-0 mt-4 mr-4 space-x-4 sm:mt-6 sm:mr-6 sm:space-x-6">
-        @auth
-          <a href="{{ url('/url') }}"
-            class="no-underline hover:underline text-sm font-normal text-teal-800 uppercase">{{ __('Home') }}</a>
-        @else
-          <a href="{{ route('login') }}"
-            class="no-underline hover:underline text-sm font-normal text-teal-800 uppercase">{{ __('Login') }}</a>
-          @if (Route::has('register'))
-            <a href="{{ route('register') }}"
-              class="no-underline hover:underline text-sm font-normal text-teal-800 uppercase">{{ __('Register') }}</a>
-          @endif
-        @endauth
+  <div class="hero min-h-screen bg-base-200">
+    <div class="flex-col justify-center hero-content lg:flex-row">
+      <div class="text-center lg:text-left">
+        <h1 class="mb-5 text-5xl font-bold">
+          Krobot URL Shortener
+        </h1>
+        <p class="mb-5">
+          You can create and edit your links
+        </p>
+        <a href="{{ route('login') }}" class="btn btn-primary">Create Now</a>
       </div>
-    @endif
-
-    <div class="min-h-screen flex items-center justify-center">
-      <div class="flex flex-col justify-around h-full">
-        <div>
-          <h1 class="mb-6 text-gray-600 text-center font-light tracking-wider text-4xl sm:mb-8 sm:text-6xl">
-            {{ config('app.name', 'Laravel') }}
-          </h1>
-          <ul class="flex flex-col space-y-2 sm:flex-row sm:flex-wrap sm:space-x-8 sm:space-y-0">
-            <li>
-              <a href="https://laravel.com/docs"
-                class="no-underline hover:underline text-sm font-normal text-teal-800 uppercase"
-                title="Documentation">Documentation</a>
-            </li>
-            <li>
-              <a href="https://laracasts.com"
-                class="no-underline hover:underline text-sm font-normal text-teal-800 uppercase"
-                title="Laracasts">Laracasts</a>
-            </li>
-            <li>
-              <a href="https://laravel-news.com"
-                class="no-underline hover:underline text-sm font-normal text-teal-800 uppercase" title="News">News</a>
-            </li>
-            <li>
-              <a href="https://nova.laravel.com"
-                class="no-underline hover:underline text-sm font-normal text-teal-800 uppercase" title="Nova">Nova</a>
-            </li>
-            <li>
-              <a href="https://forge.laravel.com"
-                class="no-underline hover:underline text-sm font-normal text-teal-800 uppercase" title="Forge">Forge</a>
-            </li>
-            <li>
-              <a href="https://vapor.laravel.com"
-                class="no-underline hover:underline text-sm font-normal text-teal-800 uppercase" title="Vapor">Vapor</a>
-            </li>
-            <li>
-              <a href="https://github.com/laravel/laravel"
-                class="no-underline hover:underline text-sm font-normal text-teal-800 uppercase"
-                title="GitHub">GitHub</a>
-            </li>
-            <li>
-              <a href="https://tailwindcss.com"
-                class="no-underline hover:underline text-sm font-normal text-teal-800 uppercase"
-                title="Tailwind Css">Tailwind CSS</a>
-            </li>
-          </ul>
-        </div>
+      <div class="card flex-shrink-0 w-full max-w-md shadow-2xl bg-base-100">
+        <form action="{{ route('guestStore') }}" method="POST" class="card-body">
+          @csrf
+          @if ($message = Session::get('success'))
+            <div class="alert alert-success">
+              <div class="flex-1">
+                <label>{{ $message }}</label>
+              </div>
+            </div>
+          @endif
+          @if ($message = Session::get('short_link'))
+            <div class="mt-1 alert alert-success">
+              <div class="underline cursor-pointer font-medium flex-1">
+                <label onclick="copyToClipboard('{{ $message }}')">{{ $message }}</label>
+              </div>
+            </div>
+          @endif
+          @if ($errors->any())
+            <div class="alert alert-error">
+              <ul>
+                @foreach ($errors->all() as $error)
+                  <li>{{ $error }}</li>
+                @endforeach
+              </ul>
+            </div>
+          @endif
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text">url</span>
+            </label>
+            <input type="text" name="target" placeholder="https://random-url.com" class="input input-bordered"
+              value="{{ old('target') }}">
+          </div>
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text">custom key</span>
+            </label>
+            <label class="input-group">
+              <span>{{ env('APP_SHORT_URL') }}</span>
+              <input type="text" name="custom_key" placeholder="myurl" class="input input-bordered w-full"
+                value="{{ old('custom_key') }}">
+            </label>
+          </div>
+          <div class="form-control mt-6">
+            <input type="submit" value="Instant create" class="btn btn-primary">
+          </div>
+        </form>
       </div>
     </div>
   </div>

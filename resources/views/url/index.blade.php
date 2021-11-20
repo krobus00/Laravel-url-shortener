@@ -1,12 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-  <script>
-    function copyToClipboard(str) {
-      navigator.clipboard.writeText(str);
-      alert("Copied the text: " + str);
-    }
-  </script>
   <main class="sm:container sm:mx-auto sm:mt-10">
     <div class="w-full sm:px-6">
       @if (session('status'))
@@ -29,8 +23,15 @@
               </div>
             </div>
           @endif
+          @if ($message = Session::get('short_link'))
+            <div class="mt-1 alert alert-success">
+              <div class="underline cursor-pointer font-medium flex-1">
+                <label onclick="copyToClipboard('{{ $message }}')">{{ $message }}</label>
+              </div>
+            </div>
+          @endif
           @if ($errors->any())
-            <div class="alert alert-danger">
+            <div class="alert alert-error">
               <ul>
                 @foreach ($errors->all() as $error)
                   <li>{{ $error }}</li>

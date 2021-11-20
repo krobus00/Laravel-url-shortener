@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\GuestStoreUrlRequest;
 use App\Http\Requests\StoreUrlRequest;
 use App\Http\Requests\UpdateUrlRequest;
 use App\Models\Url;
@@ -63,7 +64,21 @@ class UrlController extends Controller
         Url::create($newUrl);
 
         return redirect()->route('url.index')
-            ->with('success', 'Url created successfully. ' . env('APP_SHORT_URL') . $newUrl["custom_key"]);
+            ->with('success', 'Url created successfully.')
+            ->with('short_link', env('APP_SHORT_URL') . $newUrl["custom_key"]);
+    }
+
+    public function guestStore(GuestStoreUrlRequest $request)
+    {
+        $newUrl = $request->validated();
+        if (!$request->filled('custom_key')) {
+            $newUrl["custom_key"] = $this->generateRandomString();
+        }
+        Url::create($newUrl);
+
+        return redirect()->route('welcome')
+            ->with('success', 'Url created successfully. ')
+            ->with('short_link', env('APP_SHORT_URL') . $newUrl["custom_key"]);
     }
 
     /**
@@ -104,7 +119,8 @@ class UrlController extends Controller
         $url->update($updateUrl);
 
         return redirect()->route('url.index')
-            ->with('success', 'Url created successfully. ' . env('APP_SHORT_URL') . $updateUrl["custom_key"]);
+            ->with('success', 'Url created successfully.')
+            ->with('short_link', env('APP_SHORT_URL') . $updateUrl["custom_key"]);
     }
 
     /**

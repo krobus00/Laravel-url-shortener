@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 Auth::routes();
 Route::middleware(['auth'])->group(function () {
@@ -28,3 +28,4 @@ Route::middleware(['auth'])->group(function () {
 
 
 Route::get('/{custom_key}', [UrlController::class, 'goToUrl'])->name('goToUrl');
+Route::post('/store', [UrlController::class, 'guestStore'])->name('guestStore');
