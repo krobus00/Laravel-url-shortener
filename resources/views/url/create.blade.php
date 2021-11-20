@@ -39,7 +39,7 @@
                 <span class="label-text">custom key</span>
               </label>
               <label class="input-group">
-                <span>https://s.krobot.my.id/</span>
+                <span>{{ env('APP_SHORT_URL') }}</span>
                 <input type="text" name="custom_key" placeholder="myurl" class="input input-bordered w-full"
                   value="{{ old('custom_key') }}">
               </label>

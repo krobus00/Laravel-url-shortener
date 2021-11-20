@@ -63,7 +63,7 @@ class UrlController extends Controller
         Url::create($newUrl);
 
         return redirect()->route('url.index')
-            ->with('success', 'Url created successfully. https://s.krobot.my.id/' . $newUrl["custom_key"]);
+            ->with('success', 'Url created successfully. ' . env('APP_SHORT_URL') . $newUrl["custom_key"]);
     }
 
     /**
@@ -104,7 +104,7 @@ class UrlController extends Controller
         $url->update($updateUrl);
 
         return redirect()->route('url.index')
-            ->with('success', 'Url created successfully. https://s.krobot.my.id/' . $updateUrl["custom_key"]);
+            ->with('success', 'Url created successfully. ' . env('APP_SHORT_URL') . $updateUrl["custom_key"]);
     }
 
     /**

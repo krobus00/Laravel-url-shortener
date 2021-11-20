@@ -1,6 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
+  <script>
+    function copyToClipboard(str) {
+      navigator.clipboard.writeText(str);
+      alert("Copied the text: " + str);
+    }
+  </script>
   <main class="sm:container sm:mx-auto sm:mt-10">
     <div class="w-full sm:px-6">
       @if (session('status'))
@@ -61,7 +67,10 @@
                   <tr class="hover">
                     <th>{{ ++$i }}</th>
                     <td>{{ $value->target }}</td>
-                    <td>{{ $value->custom_key ?? '-' }}</td>
+                    <td class="hover:underline cursor-pointer"
+                      onclick="copyToClipboard('{{ env('APP_SHORT_URL') }}{{ $value->custom_key }}')">
+                      {{ $value->custom_key ?? '-' }}
+                    </td>
                     <td>{{ $value->updated_at }}</td>
                     <td>
                       <form action="{{ route('url.destroy', $value->id) }}" method="POST">

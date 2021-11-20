@@ -21,8 +21,10 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-Route::get('/home', [HomeController::class, 'index'])->name('home');
-Route::resource('/url', UrlController::class);
+Route::middleware(['auth'])->group(function () {
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::resource('/url', UrlController::class);
+});
 
 
 Route::get('/{custom_key}', [UrlController::class, 'goToUrl'])->name('goToUrl');
