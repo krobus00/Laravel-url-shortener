@@ -9,7 +9,7 @@
           {{ session('status') }}
         </div>
       @endif
-      <section class="flex flex-col break-words bg-white sm:border-1 sm:rounded-md sm:shadow-sm">
+      <section class="flex flex-col break-words sm:border-1 sm:rounded-md sm:shadow-sm">
         <header
           class="flex justify-between items-center font-semibold bg-gray-200 text-gray-700 py-5 px-6 sm:py-6 sm:px-8 sm:rounded-t-md ">
           <span> URL SHORTENER</span>

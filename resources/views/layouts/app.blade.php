@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme="light">
 
 <head>
   <meta charset="utf-8">
@@ -18,7 +18,7 @@
   <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 </head>
 
-<body class="bg-gray-100 h-screen antialiased leading-none font-sans">
+<body class="h-screen antialiased leading-none font-sans">
   <div id="app">
     <header class="bg-blue-900 py-6">
       <div class="container mx-auto flex justify-between items-center px-6">
@@ -36,8 +36,9 @@
           @else
             <span>{{ Auth::user()->name }}</span>
 
-            <a href="{{ route('logout') }}" class="no-underline hover:underline" onclick="event.preventDefault();
-                                            document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
+            <a href="{{ route('logout') }}" class="no-underline hover:underline"
+              onclick="event.preventDefault();
+                                                  document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
               {{ csrf_field() }}
             </form>
