@@ -33,7 +33,7 @@ class UrlController extends Controller
                 $query->where("target", "LIKE", "%" . request('q', "") . "%")
                     ->orWhere("custom_key", "LIKE", "%" . request('q', "") . "%");
             })
-            ->orderBy('id', 'DESC')
+            ->orderBy('created_at', 'DESC')
             ->paginate(5);
         return view('url.index', compact('data'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
